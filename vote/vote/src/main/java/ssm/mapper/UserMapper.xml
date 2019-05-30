@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="ssm.pojo.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_birth" jdbcType="DATE" property="userBirth" />
+    <result column="user_position" jdbcType="VARCHAR" property="userPosition" />
+    <result column="user_position_title" jdbcType="VARCHAR" property="userPositionTitle" />
+    <result column="user_study_resume" jdbcType="VARCHAR" property="userStudyResume" />
+    <result column="user_work_resume" jdbcType="VARCHAR" property="userWorkResume" />
+    <result column="user_idnumber" jdbcType="VARCHAR" property="userIdnumber" />
+    <result column="user_officenumber" jdbcType="VARCHAR" property="userOfficenumber" />
+    <result column="user_work_units" jdbcType="VARCHAR" property="userWorkUnits" />
+    <result column="user_home_address" jdbcType="VARCHAR" property="userHomeAddress" />
+    <result column="user_phone_number" jdbcType="VARCHAR" property="userPhoneNumber" />
+    <result column="user_work_number" jdbcType="VARCHAR" property="userWorkNumber" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_postalcode" jdbcType="INTEGER" property="userPostalcode" />
+    <result column="user_image_url" jdbcType="VARCHAR" property="userImageUrl" />
+    <result column="user_highest_scholor" jdbcType="VARCHAR" property="userHighestScholor" />
+    <result column="user_highest_degree" jdbcType="VARCHAR" property="userHighestDegree" />
+    <result column="user_achievement" jdbcType="VARCHAR" property="userAchievement" />
+    <result column="argue_number" jdbcType="INTEGER" property="argueNumber" />
+    <result column="user_authority" jdbcType="INTEGER" property="userAuthority" />
+    <result column="user_role_id_fk" jdbcType="INTEGER" property="userRoleIdFk" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_password, user_sex, user_birth, user_position, user_position_title, 
+    user_study_resume, user_work_resume, user_idnumber, user_officenumber, user_work_units, 
+    user_home_address, user_phone_number, user_work_number, user_email, user_postalcode, 
+    user_image_url, user_highest_scholor, user_highest_degree, user_achievement, argue_number, 
+    user_authority, user_role_id_fk
+  </sql>
+  <select id="selectByExample" parameterType="ssm.pojo.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ssm.pojo.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ssm.pojo.User">
+    insert into user (user_id, user_name, user_password, 
+      user_sex, user_birth, user_position, 
+      user_position_title, user_study_resume, user_work_resume, 
+      user_idnumber, user_officenumber, user_work_units, 
+      user_home_address, user_phone_number, user_work_number, 
+      user_email, user_postalcode, user_image_url, 
+      user_highest_scholor, user_highest_degree, 
+      user_achievement, argue_number, user_authority, 
+      user_role_id_fk)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userSex,jdbcType=VARCHAR}, #{userBirth,jdbcType=DATE}, #{userPosition,jdbcType=VARCHAR}, 
+      #{userPositionTitle,jdbcType=VARCHAR}, #{userStudyResume,jdbcType=VARCHAR}, #{userWorkResume,jdbcType=VARCHAR}, 
+      #{userIdnumber,jdbcType=VARCHAR}, #{userOfficenumber,jdbcType=VARCHAR}, #{userWorkUnits,jdbcType=VARCHAR}, 
+      #{userHomeAddress,jdbcType=VARCHAR}, #{userPhoneNumber,jdbcType=VARCHAR}, #{userWorkNumber,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userPostalcode,jdbcType=INTEGER}, #{userImageUrl,jdbcType=VARCHAR}, 
+      #{userHighestScholor,jdbcType=VARCHAR}, #{userHighestDegree,jdbcType=VARCHAR}, 
+      #{userAchievement,jdbcType=VARCHAR}, #{argueNumber,jdbcType=INTEGER}, #{userAuthority,jdbcType=INTEGER}, 
+      #{userRoleIdFk,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="ssm.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userBirth != null">
+        user_birth,
+      </if>
+      <if test="userPosition != null">
+        user_position,
+      </if>
+      <if test="userPositionTitle != null">
+        user_position_title,
+      </if>
+      <if test="userStudyResume != null">
+        user_study_resume,
+      </if>
+      <if test="userWorkResume != null">
+        user_work_resume,
+      </if>
+      <if test="userIdnumber != null">
+        user_idnumber,
+      </if>
+      <if test="userOfficenumber != null">
+        user_officenumber,
+      </if>
+      <if test="userWorkUnits != null">
+        user_work_units,
+      </if>
+      <if test="userHomeAddress != null">
+        user_home_address,
+      </if>
+      <if test="userPhoneNumber != null">
+        user_phone_number,
+      </if>
+      <if test="userWorkNumber != null">
+        user_work_number,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userPostalcode != null">
+        user_postalcode,
+      </if>
+      <if test="userImageUrl != null">
+        user_image_url,
+      </if>
+      <if test="userHighestScholor != null">
+        user_highest_scholor,
+      </if>
+      <if test="userHighestDegree != null">
+        user_highest_degree,
+      </if>
+      <if test="userAchievement != null">
+        user_achievement,
+      </if>
+      <if test="argueNumber != null">
+        argue_number,
+      </if>
+      <if test="userAuthority != null">
+        user_authority,
+      </if>
+      <if test="userRoleIdFk != null">
+        user_role_id_fk,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        #{userBirth,jdbcType=DATE},
+      </if>
+      <if test="userPosition != null">
+        #{userPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="userPositionTitle != null">
+        #{userPositionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userStudyResume != null">
+        #{userStudyResume,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkResume != null">
+        #{userWorkResume,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdnumber != null">
+        #{userIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userOfficenumber != null">
+        #{userOfficenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkUnits != null">
+        #{userWorkUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="userHomeAddress != null">
+        #{userHomeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoneNumber != null">
+        #{userPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkNumber != null">
+        #{userWorkNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPostalcode != null">
+        #{userPostalcode,jdbcType=INTEGER},
+      </if>
+      <if test="userImageUrl != null">
+        #{userImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userHighestScholor != null">
+        #{userHighestScholor,jdbcType=VARCHAR},
+      </if>
+      <if test="userHighestDegree != null">
+        #{userHighestDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="userAchievement != null">
+        #{userAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="argueNumber != null">
+        #{argueNumber,jdbcType=INTEGER},
+      </if>
+      <if test="userAuthority != null">
+        #{userAuthority,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleIdFk != null">
+        #{userRoleIdFk,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ssm.pojo.UserExample" resultType="java.lang.Integer">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null">
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSex != null">
+        user_sex = #{record.userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userBirth != null">
+        user_birth = #{record.userBirth,jdbcType=DATE},
+      </if>
+      <if test="record.userPosition != null">
+        user_position = #{record.userPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPositionTitle != null">
+        user_position_title = #{record.userPositionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userStudyResume != null">
+        user_study_resume = #{record.userStudyResume,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWorkResume != null">
+        user_work_resume = #{record.userWorkResume,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIdnumber != null">
+        user_idnumber = #{record.userIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userOfficenumber != null">
+        user_officenumber = #{record.userOfficenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWorkUnits != null">
+        user_work_units = #{record.userWorkUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userHomeAddress != null">
+        user_home_address = #{record.userHomeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhoneNumber != null">
+        user_phone_number = #{record.userPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWorkNumber != null">
+        user_work_number = #{record.userWorkNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userEmail != null">
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPostalcode != null">
+        user_postalcode = #{record.userPostalcode,jdbcType=INTEGER},
+      </if>
+      <if test="record.userImageUrl != null">
+        user_image_url = #{record.userImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userHighestScholor != null">
+        user_highest_scholor = #{record.userHighestScholor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userHighestDegree != null">
+        user_highest_degree = #{record.userHighestDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAchievement != null">
+        user_achievement = #{record.userAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.argueNumber != null">
+        argue_number = #{record.argueNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAuthority != null">
+        user_authority = #{record.userAuthority,jdbcType=INTEGER},
+      </if>
+      <if test="record.userRoleIdFk != null">
+        user_role_id_fk = #{record.userRoleIdFk,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=VARCHAR},
+      user_birth = #{record.userBirth,jdbcType=DATE},
+      user_position = #{record.userPosition,jdbcType=VARCHAR},
+      user_position_title = #{record.userPositionTitle,jdbcType=VARCHAR},
+      user_study_resume = #{record.userStudyResume,jdbcType=VARCHAR},
+      user_work_resume = #{record.userWorkResume,jdbcType=VARCHAR},
+      user_idnumber = #{record.userIdnumber,jdbcType=VARCHAR},
+      user_officenumber = #{record.userOfficenumber,jdbcType=VARCHAR},
+      user_work_units = #{record.userWorkUnits,jdbcType=VARCHAR},
+      user_home_address = #{record.userHomeAddress,jdbcType=VARCHAR},
+      user_phone_number = #{record.userPhoneNumber,jdbcType=VARCHAR},
+      user_work_number = #{record.userWorkNumber,jdbcType=VARCHAR},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      user_postalcode = #{record.userPostalcode,jdbcType=INTEGER},
+      user_image_url = #{record.userImageUrl,jdbcType=VARCHAR},
+      user_highest_scholor = #{record.userHighestScholor,jdbcType=VARCHAR},
+      user_highest_degree = #{record.userHighestDegree,jdbcType=VARCHAR},
+      user_achievement = #{record.userAchievement,jdbcType=VARCHAR},
+      argue_number = #{record.argueNumber,jdbcType=INTEGER},
+      user_authority = #{record.userAuthority,jdbcType=INTEGER},
+      user_role_id_fk = #{record.userRoleIdFk,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ssm.pojo.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        user_birth = #{userBirth,jdbcType=DATE},
+      </if>
+      <if test="userPosition != null">
+        user_position = #{userPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="userPositionTitle != null">
+        user_position_title = #{userPositionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userStudyResume != null">
+        user_study_resume = #{userStudyResume,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkResume != null">
+        user_work_resume = #{userWorkResume,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdnumber != null">
+        user_idnumber = #{userIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userOfficenumber != null">
+        user_officenumber = #{userOfficenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkUnits != null">
+        user_work_units = #{userWorkUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="userHomeAddress != null">
+        user_home_address = #{userHomeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoneNumber != null">
+        user_phone_number = #{userPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkNumber != null">
+        user_work_number = #{userWorkNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPostalcode != null">
+        user_postalcode = #{userPostalcode,jdbcType=INTEGER},
+      </if>
+      <if test="userImageUrl != null">
+        user_image_url = #{userImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="userHighestScholor != null">
+        user_highest_scholor = #{userHighestScholor,jdbcType=VARCHAR},
+      </if>
+      <if test="userHighestDegree != null">
+        user_highest_degree = #{userHighestDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="userAchievement != null">
+        user_achievement = #{userAchievement,jdbcType=VARCHAR},
+      </if>
+      <if test="argueNumber != null">
+        argue_number = #{argueNumber,jdbcType=INTEGER},
+      </if>
+      <if test="userAuthority != null">
+        user_authority = #{userAuthority,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleIdFk != null">
+        user_role_id_fk = #{userRoleIdFk,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ssm.pojo.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_birth = #{userBirth,jdbcType=DATE},
+      user_position = #{userPosition,jdbcType=VARCHAR},
+      user_position_title = #{userPositionTitle,jdbcType=VARCHAR},
+      user_study_resume = #{userStudyResume,jdbcType=VARCHAR},
+      user_work_resume = #{userWorkResume,jdbcType=VARCHAR},
+      user_idnumber = #{userIdnumber,jdbcType=VARCHAR},
+      user_officenumber = #{userOfficenumber,jdbcType=VARCHAR},
+      user_work_units = #{userWorkUnits,jdbcType=VARCHAR},
+      user_home_address = #{userHomeAddress,jdbcType=VARCHAR},
+      user_phone_number = #{userPhoneNumber,jdbcType=VARCHAR},
+      user_work_number = #{userWorkNumber,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_postalcode = #{userPostalcode,jdbcType=INTEGER},
+      user_image_url = #{userImageUrl,jdbcType=VARCHAR},
+      user_highest_scholor = #{userHighestScholor,jdbcType=VARCHAR},
+      user_highest_degree = #{userHighestDegree,jdbcType=VARCHAR},
+      user_achievement = #{userAchievement,jdbcType=VARCHAR},
+      argue_number = #{argueNumber,jdbcType=INTEGER},
+      user_authority = #{userAuthority,jdbcType=INTEGER},
+      user_role_id_fk = #{userRoleIdFk,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectUsersIdByVotingId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from user where user_id in (select user_id_fk from user_voting
+    where voting_id_fk = #{votingIdFk,jdbcType=INTEGER}
+    group by user_id_fk)
+  </select>
+</mapper>

@@ -1,0 +1,65 @@
+.max_schema{
+    color: #111111;
+    opacity : 0.95;
+    font-style : normal;
+    font-size : 100%;
+}
+
+.patter1_1{
+    margin-left: 8%;
+    margin-top: 25px;
+}
+
+.patter1_2{
+    margin-left: 8%;
+    margin-top: 20px;
+}
+
+.patter1_3{
+    margin-top: 10px;
+    margin-left: 8%;
+}
+
+.patter1_4{
+    margin-top: 0px;
+    margin-left: 13%;
+}
+
+.patter1_5{
+    /*white-space:nowrap;设置强制不换行*/
+    white-space:nowrap;
+    margin-top: 2px;
+    margin-left: 41%;
+}
+.submit {
+    position: relative;
+    display: inline-block;
+    background: #2C87F7;
+    border: 1px solid #90d7ec;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #FFFFff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.submit input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.submit:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+
+.patter1_7{
+    font-size: 15px;
+    font-family: "宋体";
+}
+

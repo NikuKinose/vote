@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.PatterMapper">
+  <resultMap id="BaseResultMap" type="ssm.pojo.Patter">
+    <id column="patter_id" jdbcType="INTEGER" property="patterId" />
+    <result column="patter_name" jdbcType="VARCHAR" property="patterName" />
+    <result column="patter_set_explain" jdbcType="VARCHAR" property="patterSetExplain" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    patter_id, patter_name, patter_set_explain
+  </sql>
+  <select id="selectByExample" parameterType="ssm.pojo.PatterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from patter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from patter
+    where patter_id = #{patterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from patter
+    where patter_id = #{patterId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ssm.pojo.PatterExample">
+    delete from patter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ssm.pojo.Patter">
+    insert into patter (patter_id, patter_name, patter_set_explain
+      )
+    values (#{patterId,jdbcType=INTEGER}, #{patterName,jdbcType=VARCHAR}, #{patterSetExplain,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ssm.pojo.Patter">
+    insert into patter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="patterId != null">
+        patter_id,
+      </if>
+      <if test="patterName != null">
+        patter_name,
+      </if>
+      <if test="patterSetExplain != null">
+        patter_set_explain,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="patterId != null">
+        #{patterId,jdbcType=INTEGER},
+      </if>
+      <if test="patterName != null">
+        #{patterName,jdbcType=VARCHAR},
+      </if>
+      <if test="patterSetExplain != null">
+        #{patterSetExplain,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ssm.pojo.PatterExample" resultType="java.lang.Integer">
+    select count(*) from patter
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update patter
+    <set>
+      <if test="record.patterId != null">
+        patter_id = #{record.patterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.patterName != null">
+        patter_name = #{record.patterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patterSetExplain != null">
+        patter_set_explain = #{record.patterSetExplain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update patter
+    set patter_id = #{record.patterId,jdbcType=INTEGER},
+      patter_name = #{record.patterName,jdbcType=VARCHAR},
+      patter_set_explain = #{record.patterSetExplain,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ssm.pojo.Patter">
+    update patter
+    <set>
+      <if test="patterName != null">
+        patter_name = #{patterName,jdbcType=VARCHAR},
+      </if>
+      <if test="patterSetExplain != null">
+        patter_set_explain = #{patterSetExplain,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where patter_id = #{patterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ssm.pojo.Patter">
+    update patter
+    set patter_name = #{patterName,jdbcType=VARCHAR},
+      patter_set_explain = #{patterSetExplain,jdbcType=VARCHAR}
+    where patter_id = #{patterId,jdbcType=INTEGER}
+  </update>
+</mapper>

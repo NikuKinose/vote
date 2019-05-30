@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.MeetingMapper">
+  <resultMap id="BaseResultMap" type="ssm.pojo.Meeting">
+    <id column="meeting_id" jdbcType="INTEGER" property="meetingId" />
+    <result column="meeting_name" jdbcType="VARCHAR" property="meetingName" />
+    <result column="meeting_abstract" jdbcType="VARCHAR" property="meetingAbstract" />
+    <result column="meeting_ispublic" jdbcType="VARCHAR" property="meetingIspublic" />
+    <result column="model_id_fk" jdbcType="INTEGER" property="modelIdFk" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="meeting_place" jdbcType="VARCHAR" property="meetingPlace" />
+    <result column="meeting_current_link" jdbcType="INTEGER" property="meetingCurrentLink" />
+    <result column="user_id_fk" jdbcType="INTEGER" property="userIdFk" />
+    <result column="predict_start_time" jdbcType="TIMESTAMP" property="predictStartTime" />
+    <result column="predict_end_time" jdbcType="TIMESTAMP" property="predictEndTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    meeting_id, meeting_name, meeting_abstract, meeting_ispublic, model_id_fk, start_time, 
+    end_time, meeting_place, meeting_current_link, user_id_fk, predict_start_time, predict_end_time
+  </sql>
+  <select id="selectByExample" parameterType="ssm.pojo.MeetingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meeting
+    where meeting_id = #{meetingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from meeting
+    where meeting_id = #{meetingId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ssm.pojo.MeetingExample">
+    delete from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ssm.pojo.Meeting">
+    insert into meeting (meeting_id, meeting_name, meeting_abstract, 
+      meeting_ispublic, model_id_fk, start_time, 
+      end_time, meeting_place, meeting_current_link, 
+      user_id_fk, predict_start_time, predict_end_time
+      )
+    values (#{meetingId,jdbcType=INTEGER}, #{meetingName,jdbcType=VARCHAR}, #{meetingAbstract,jdbcType=VARCHAR}, 
+      #{meetingIspublic,jdbcType=VARCHAR}, #{modelIdFk,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{meetingPlace,jdbcType=VARCHAR}, #{meetingCurrentLink,jdbcType=INTEGER}, 
+      #{userIdFk,jdbcType=INTEGER}, #{predictStartTime,jdbcType=TIMESTAMP}, #{predictEndTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ssm.pojo.Meeting">
+    insert into meeting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="meetingId != null">
+        meeting_id,
+      </if>
+      <if test="meetingName != null">
+        meeting_name,
+      </if>
+      <if test="meetingAbstract != null">
+        meeting_abstract,
+      </if>
+      <if test="meetingIspublic != null">
+        meeting_ispublic,
+      </if>
+      <if test="modelIdFk != null">
+        model_id_fk,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="meetingPlace != null">
+        meeting_place,
+      </if>
+      <if test="meetingCurrentLink != null">
+        meeting_current_link,
+      </if>
+      <if test="userIdFk != null">
+        user_id_fk,
+      </if>
+      <if test="predictStartTime != null">
+        predict_start_time,
+      </if>
+      <if test="predictEndTime != null">
+        predict_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="meetingId != null">
+        #{meetingId,jdbcType=INTEGER},
+      </if>
+      <if test="meetingName != null">
+        #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingAbstract != null">
+        #{meetingAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingIspublic != null">
+        #{meetingIspublic,jdbcType=VARCHAR},
+      </if>
+      <if test="modelIdFk != null">
+        #{modelIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null">
+        #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingCurrentLink != null">
+        #{meetingCurrentLink,jdbcType=INTEGER},
+      </if>
+      <if test="userIdFk != null">
+        #{userIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="predictStartTime != null">
+        #{predictStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="predictEndTime != null">
+        #{predictEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ssm.pojo.MeetingExample" resultType="java.lang.Integer">
+    select count(*) from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update meeting
+    <set>
+      <if test="record.meetingId != null">
+        meeting_id = #{record.meetingId,jdbcType=INTEGER},
+      </if>
+      <if test="record.meetingName != null">
+        meeting_name = #{record.meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingAbstract != null">
+        meeting_abstract = #{record.meetingAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingIspublic != null">
+        meeting_ispublic = #{record.meetingIspublic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelIdFk != null">
+        model_id_fk = #{record.modelIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.meetingPlace != null">
+        meeting_place = #{record.meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingCurrentLink != null">
+        meeting_current_link = #{record.meetingCurrentLink,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIdFk != null">
+        user_id_fk = #{record.userIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.predictStartTime != null">
+        predict_start_time = #{record.predictStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.predictEndTime != null">
+        predict_end_time = #{record.predictEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update meeting
+    set meeting_id = #{record.meetingId,jdbcType=INTEGER},
+      meeting_name = #{record.meetingName,jdbcType=VARCHAR},
+      meeting_abstract = #{record.meetingAbstract,jdbcType=VARCHAR},
+      meeting_ispublic = #{record.meetingIspublic,jdbcType=VARCHAR},
+      model_id_fk = #{record.modelIdFk,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      meeting_place = #{record.meetingPlace,jdbcType=VARCHAR},
+      meeting_current_link = #{record.meetingCurrentLink,jdbcType=INTEGER},
+      user_id_fk = #{record.userIdFk,jdbcType=INTEGER},
+      predict_start_time = #{record.predictStartTime,jdbcType=TIMESTAMP},
+      predict_end_time = #{record.predictEndTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ssm.pojo.Meeting">
+    update meeting
+    <set>
+      <if test="meetingName != null">
+        meeting_name = #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingAbstract != null">
+        meeting_abstract = #{meetingAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingIspublic != null">
+        meeting_ispublic = #{meetingIspublic,jdbcType=VARCHAR},
+      </if>
+      <if test="modelIdFk != null">
+        model_id_fk = #{modelIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null">
+        meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingCurrentLink != null">
+        meeting_current_link = #{meetingCurrentLink,jdbcType=INTEGER},
+      </if>
+      <if test="userIdFk != null">
+        user_id_fk = #{userIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="predictStartTime != null">
+        predict_start_time = #{predictStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="predictEndTime != null">
+        predict_end_time = #{predictEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where meeting_id = #{meetingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ssm.pojo.Meeting">
+    update meeting
+    set meeting_name = #{meetingName,jdbcType=VARCHAR},
+      meeting_abstract = #{meetingAbstract,jdbcType=VARCHAR},
+      meeting_ispublic = #{meetingIspublic,jdbcType=VARCHAR},
+      model_id_fk = #{modelIdFk,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      meeting_current_link = #{meetingCurrentLink,jdbcType=INTEGER},
+      user_id_fk = #{userIdFk,jdbcType=INTEGER},
+      predict_start_time = #{predictStartTime,jdbcType=TIMESTAMP},
+      predict_end_time = #{predictEndTime,jdbcType=TIMESTAMP}
+    where meeting_id = #{meetingId,jdbcType=INTEGER}
+  </update>
+</mapper>

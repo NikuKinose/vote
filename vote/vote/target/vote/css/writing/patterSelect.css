@@ -1,0 +1,179 @@
+.one span{
+    text-decoration: none;
+    font-family: 宋体;
+    text-align: center;
+    font-size: 15px;
+    line-height: 30px;
+    color: #000;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+.mom{
+    border-bottom: solid #4378a4 2px;
+}
+
+.min_title{
+    color : #000033;
+    font-family : "宋体";
+    opacity : 0.95;
+    font-style : normal;
+    font-size : 150%;
+}
+
+.container ul .active
+{
+    display: inline-block;
+    padding: 5px;
+    margin: 5px 10px;
+    border-bottom: 3px solid  #4978c5;
+}
+.container ul li
+{
+    display: inline-block;
+    padding: 5px;
+    margin: 5px 10px;
+}
+.container ul li a
+{
+    text-decoration: none;
+    font-family: 宋体;
+    color: #000;
+}
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    height: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #c1c1c1;
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: #555;
+}
+
+.node circle {
+    cursor: pointer;
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+.node text {
+    font-size: 12px;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+/*a:link {color:white}*/
+a:hover,a:active {color:black}
+#xiudao{position: fixed;top: 0}
+#tongzhi{position: fixed;top:7.4%;left: 0.5%; }
+#whole{position: fixed; width: 100%}
+#publishedPlan{position: fixed;top:7.4%;right: 5%;}
+#bott{width: 85%;height: 400px;background:rgb(242,242,242);
+    padding-top:4px;border: 1px solid lightgray;margin-bottom: 20px;
+    position:fixed; bottom:150px;left: 84px }
+
+.pictureMagin{
+    margin-top: 132px;
+}
+.TopBottom{
+    margin-top: 100px;
+}
+.bt-unfold{
+    margin-top: 5px;
+    border-radius: 4px;
+    border: none;
+    background-color: #1BB394;
+    color: white;
+    margin-right: 15px;
+}
+
+.unfoldReply{
+    margin-top: 5px;
+    border-radius: 4px;
+    border: none;
+    background-color: #1BB394;
+    color: white;
+    margin-right: 15px;
+}
+
+.user-reply {
+    display: none;
+    width: 100%;
+    height: 50px;
+}
+
+.reply-in {
+    float: left;
+    width: 78%;
+    height: 50px;
+}
+
+.reply-in input {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.reply-buttons {
+    float: right;
+    margin-top: 10px;
+}
+
+.btn-comment {
+    float: right;
+    margin-right: 14px;
+    background-color: #1BB394;
+    border: none;
+    color: white;
+}
+
+.btn-cancel {
+    float: right;
+    margin-right: 10px;
+}
+
+.reply-input{
+
+}
+.schemeComment{
+    display: none;
+}
+.test {
+
+    overflow: hidden;
+    display: -webkit-box;/*必须*/
+    -webkit-line-clamp: 3;/*//必须*/
+    -webkit-box-orient: vertical;/*//必须*/
+    border-radius: 5px;
+
+}
+.whole{width: 100%;position: fixed;background-color: #fff;opacity: .9}
+.whole .tab-nav .active a{color: #000}
+
+/*共有界面样式*/
+.whole .tab-nav {height: 40px;margin-bottom: 0;padding: 0 20px;text-align: center}
+.whole .tab-nav li{margin:0 1%;display: inline-block;}
+.whole .tab-nav li a{font-size:22px;color: #999;height: 40px;line-height: 40px;display: block;text-decoration: none}
+.whole .tab-nav li a:hover{color: #000}
+.whole .tab-nav li span{visibility:hidden;display: block;width: 100%;height: 4px;background-color: #2c87f7;border-radius: 2px;transition: all .2s}
+.whole .tab-nav .active span{visibility: visible}
+.whole hr{margin-top: 5px;margin-bottom: 8px}

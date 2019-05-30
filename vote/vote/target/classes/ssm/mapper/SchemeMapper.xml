@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.mapper.SchemeMapper">
+  <resultMap id="BaseResultMap" type="ssm.pojo.Scheme">
+    <id column="scheme_id" jdbcType="INTEGER" property="schemeId" />
+    <result column="scheme_meeting_id_fk" jdbcType="INTEGER" property="schemeMeetingIdFk" />
+    <result column="scheme_user_id_fk" jdbcType="INTEGER" property="schemeUserIdFk" />
+    <result column="scheme_time" jdbcType="TIMESTAMP" property="schemeTime" />
+    <result column="scheme_poll" jdbcType="INTEGER" property="schemePoll" />
+    <result column="scheme_state" jdbcType="VARCHAR" property="schemeState" />
+    <result column="scheme_consistency_degree" jdbcType="DOUBLE" property="schemeConsistencyDegree" />
+    <result column="scheme_agree_number" jdbcType="INTEGER" property="schemeAgreeNumber" />
+    <result column="scheme_oppose_number" jdbcType="INTEGER" property="schemeOpposeNumber" />
+    <result column="scheme_middle_number" jdbcType="INTEGER" property="schemeMiddleNumber" />
+    <result column="scheme_total_score" jdbcType="DOUBLE" property="schemeTotalScore" />
+    <result column="scheme_name" jdbcType="VARCHAR" property="schemeName" />
+    <result column="scheme_candidate_state" jdbcType="VARCHAR" property="schemeCandidateState" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ssm.pojo.SchemeWithBLOBs">
+    <result column="scheme_before_content" jdbcType="LONGVARCHAR" property="schemeBeforeContent" />
+    <result column="scheme_after_content" jdbcType="LONGVARCHAR" property="schemeAfterContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    scheme_id, scheme_meeting_id_fk, scheme_user_id_fk, scheme_time, scheme_poll, scheme_state, 
+    scheme_consistency_degree, scheme_agree_number, scheme_oppose_number, scheme_middle_number, 
+    scheme_total_score, scheme_name, scheme_candidate_state
+  </sql>
+  <sql id="Blob_Column_List">
+    scheme_before_content, scheme_after_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="ssm.pojo.SchemeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from scheme
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="ssm.pojo.SchemeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from scheme
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from scheme
+    where scheme_id = #{schemeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from scheme
+    where scheme_id = #{schemeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="ssm.pojo.SchemeExample">
+    delete from scheme
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="ssm.pojo.SchemeWithBLOBs">
+    insert into scheme (scheme_id, scheme_meeting_id_fk, scheme_user_id_fk, 
+      scheme_time, scheme_poll, scheme_state, 
+      scheme_consistency_degree, scheme_agree_number, 
+      scheme_oppose_number, scheme_middle_number, 
+      scheme_total_score, scheme_name, scheme_candidate_state, 
+      scheme_before_content, scheme_after_content
+      )
+    values (#{schemeId,jdbcType=INTEGER}, #{schemeMeetingIdFk,jdbcType=INTEGER}, #{schemeUserIdFk,jdbcType=INTEGER}, 
+      #{schemeTime,jdbcType=TIMESTAMP}, #{schemePoll,jdbcType=INTEGER}, #{schemeState,jdbcType=VARCHAR}, 
+      #{schemeConsistencyDegree,jdbcType=DOUBLE}, #{schemeAgreeNumber,jdbcType=INTEGER}, 
+      #{schemeOpposeNumber,jdbcType=INTEGER}, #{schemeMiddleNumber,jdbcType=INTEGER}, 
+      #{schemeTotalScore,jdbcType=DOUBLE}, #{schemeName,jdbcType=VARCHAR}, #{schemeCandidateState,jdbcType=VARCHAR}, 
+      #{schemeBeforeContent,jdbcType=LONGVARCHAR}, #{schemeAfterContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ssm.pojo.SchemeWithBLOBs">
+    insert into scheme
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="schemeId != null">
+        scheme_id,
+      </if>
+      <if test="schemeMeetingIdFk != null">
+        scheme_meeting_id_fk,
+      </if>
+      <if test="schemeUserIdFk != null">
+        scheme_user_id_fk,
+      </if>
+      <if test="schemeTime != null">
+        scheme_time,
+      </if>
+      <if test="schemePoll != null">
+        scheme_poll,
+      </if>
+      <if test="schemeState != null">
+        scheme_state,
+      </if>
+      <if test="schemeConsistencyDegree != null">
+        scheme_consistency_degree,
+      </if>
+      <if test="schemeAgreeNumber != null">
+        scheme_agree_number,
+      </if>
+      <if test="schemeOpposeNumber != null">
+        scheme_oppose_number,
+      </if>
+      <if test="schemeMiddleNumber != null">
+        scheme_middle_number,
+      </if>
+      <if test="schemeTotalScore != null">
+        scheme_total_score,
+      </if>
+      <if test="schemeName != null">
+        scheme_name,
+      </if>
+      <if test="schemeCandidateState != null">
+        scheme_candidate_state,
+      </if>
+      <if test="schemeBeforeContent != null">
+        scheme_before_content,
+      </if>
+      <if test="schemeAfterContent != null">
+        scheme_after_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="schemeId != null">
+        #{schemeId,jdbcType=INTEGER},
+      </if>
+      <if test="schemeMeetingIdFk != null">
+        #{schemeMeetingIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="schemeUserIdFk != null">
+        #{schemeUserIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="schemeTime != null">
+        #{schemeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schemePoll != null">
+        #{schemePoll,jdbcType=INTEGER},
+      </if>
+      <if test="schemeState != null">
+        #{schemeState,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeConsistencyDegree != null">
+        #{schemeConsistencyDegree,jdbcType=DOUBLE},
+      </if>
+      <if test="schemeAgreeNumber != null">
+        #{schemeAgreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeOpposeNumber != null">
+        #{schemeOpposeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeMiddleNumber != null">
+        #{schemeMiddleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeTotalScore != null">
+        #{schemeTotalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="schemeName != null">
+        #{schemeName,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeCandidateState != null">
+        #{schemeCandidateState,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeBeforeContent != null">
+        #{schemeBeforeContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="schemeAfterContent != null">
+        #{schemeAfterContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="ssm.pojo.SchemeExample" resultType="java.lang.Integer">
+    select count(*) from scheme
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update scheme
+    <set>
+      <if test="record.schemeId != null">
+        scheme_id = #{record.schemeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeMeetingIdFk != null">
+        scheme_meeting_id_fk = #{record.schemeMeetingIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeUserIdFk != null">
+        scheme_user_id_fk = #{record.schemeUserIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeTime != null">
+        scheme_time = #{record.schemeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schemePoll != null">
+        scheme_poll = #{record.schemePoll,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeState != null">
+        scheme_state = #{record.schemeState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schemeConsistencyDegree != null">
+        scheme_consistency_degree = #{record.schemeConsistencyDegree,jdbcType=DOUBLE},
+      </if>
+      <if test="record.schemeAgreeNumber != null">
+        scheme_agree_number = #{record.schemeAgreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeOpposeNumber != null">
+        scheme_oppose_number = #{record.schemeOpposeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeMiddleNumber != null">
+        scheme_middle_number = #{record.schemeMiddleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.schemeTotalScore != null">
+        scheme_total_score = #{record.schemeTotalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="record.schemeName != null">
+        scheme_name = #{record.schemeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schemeCandidateState != null">
+        scheme_candidate_state = #{record.schemeCandidateState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schemeBeforeContent != null">
+        scheme_before_content = #{record.schemeBeforeContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.schemeAfterContent != null">
+        scheme_after_content = #{record.schemeAfterContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update scheme
+    set scheme_id = #{record.schemeId,jdbcType=INTEGER},
+      scheme_meeting_id_fk = #{record.schemeMeetingIdFk,jdbcType=INTEGER},
+      scheme_user_id_fk = #{record.schemeUserIdFk,jdbcType=INTEGER},
+      scheme_time = #{record.schemeTime,jdbcType=TIMESTAMP},
+      scheme_poll = #{record.schemePoll,jdbcType=INTEGER},
+      scheme_state = #{record.schemeState,jdbcType=VARCHAR},
+      scheme_consistency_degree = #{record.schemeConsistencyDegree,jdbcType=DOUBLE},
+      scheme_agree_number = #{record.schemeAgreeNumber,jdbcType=INTEGER},
+      scheme_oppose_number = #{record.schemeOpposeNumber,jdbcType=INTEGER},
+      scheme_middle_number = #{record.schemeMiddleNumber,jdbcType=INTEGER},
+      scheme_total_score = #{record.schemeTotalScore,jdbcType=DOUBLE},
+      scheme_name = #{record.schemeName,jdbcType=VARCHAR},
+      scheme_candidate_state = #{record.schemeCandidateState,jdbcType=VARCHAR},
+      scheme_before_content = #{record.schemeBeforeContent,jdbcType=LONGVARCHAR},
+      scheme_after_content = #{record.schemeAfterContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update scheme
+    set scheme_id = #{record.schemeId,jdbcType=INTEGER},
+      scheme_meeting_id_fk = #{record.schemeMeetingIdFk,jdbcType=INTEGER},
+      scheme_user_id_fk = #{record.schemeUserIdFk,jdbcType=INTEGER},
+      scheme_time = #{record.schemeTime,jdbcType=TIMESTAMP},
+      scheme_poll = #{record.schemePoll,jdbcType=INTEGER},
+      scheme_state = #{record.schemeState,jdbcType=VARCHAR},
+      scheme_consistency_degree = #{record.schemeConsistencyDegree,jdbcType=DOUBLE},
+      scheme_agree_number = #{record.schemeAgreeNumber,jdbcType=INTEGER},
+      scheme_oppose_number = #{record.schemeOpposeNumber,jdbcType=INTEGER},
+      scheme_middle_number = #{record.schemeMiddleNumber,jdbcType=INTEGER},
+      scheme_total_score = #{record.schemeTotalScore,jdbcType=DOUBLE},
+      scheme_name = #{record.schemeName,jdbcType=VARCHAR},
+      scheme_candidate_state = #{record.schemeCandidateState,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="ssm.pojo.SchemeWithBLOBs">
+    update scheme
+    <set>
+      <if test="schemeMeetingIdFk != null">
+        scheme_meeting_id_fk = #{schemeMeetingIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="schemeUserIdFk != null">
+        scheme_user_id_fk = #{schemeUserIdFk,jdbcType=INTEGER},
+      </if>
+      <if test="schemeTime != null">
+        scheme_time = #{schemeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schemePoll != null">
+        scheme_poll = #{schemePoll,jdbcType=INTEGER},
+      </if>
+      <if test="schemeState != null">
+        scheme_state = #{schemeState,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeConsistencyDegree != null">
+        scheme_consistency_degree = #{schemeConsistencyDegree,jdbcType=DOUBLE},
+      </if>
+      <if test="schemeAgreeNumber != null">
+        scheme_agree_number = #{schemeAgreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeOpposeNumber != null">
+        scheme_oppose_number = #{schemeOpposeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeMiddleNumber != null">
+        scheme_middle_number = #{schemeMiddleNumber,jdbcType=INTEGER},
+      </if>
+      <if test="schemeTotalScore != null">
+        scheme_total_score = #{schemeTotalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="schemeName != null">
+        scheme_name = #{schemeName,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeCandidateState != null">
+        scheme_candidate_state = #{schemeCandidateState,jdbcType=VARCHAR},
+      </if>
+      <if test="schemeBeforeContent != null">
+        scheme_before_content = #{schemeBeforeContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="schemeAfterContent != null">
+        scheme_after_content = #{schemeAfterContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where scheme_id = #{schemeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="ssm.pojo.SchemeWithBLOBs">
+    update scheme
+    set scheme_meeting_id_fk = #{schemeMeetingIdFk,jdbcType=INTEGER},
+      scheme_user_id_fk = #{schemeUserIdFk,jdbcType=INTEGER},
+      scheme_time = #{schemeTime,jdbcType=TIMESTAMP},
+      scheme_poll = #{schemePoll,jdbcType=INTEGER},
+      scheme_state = #{schemeState,jdbcType=VARCHAR},
+      scheme_consistency_degree = #{schemeConsistencyDegree,jdbcType=DOUBLE},
+      scheme_agree_number = #{schemeAgreeNumber,jdbcType=INTEGER},
+      scheme_oppose_number = #{schemeOpposeNumber,jdbcType=INTEGER},
+      scheme_middle_number = #{schemeMiddleNumber,jdbcType=INTEGER},
+      scheme_total_score = #{schemeTotalScore,jdbcType=DOUBLE},
+      scheme_name = #{schemeName,jdbcType=VARCHAR},
+      scheme_candidate_state = #{schemeCandidateState,jdbcType=VARCHAR},
+      scheme_before_content = #{schemeBeforeContent,jdbcType=LONGVARCHAR},
+      scheme_after_content = #{schemeAfterContent,jdbcType=LONGVARCHAR}
+    where scheme_id = #{schemeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ssm.pojo.Scheme">
+    update scheme
+    set scheme_meeting_id_fk = #{schemeMeetingIdFk,jdbcType=INTEGER},
+      scheme_user_id_fk = #{schemeUserIdFk,jdbcType=INTEGER},
+      scheme_time = #{schemeTime,jdbcType=TIMESTAMP},
+      scheme_poll = #{schemePoll,jdbcType=INTEGER},
+      scheme_state = #{schemeState,jdbcType=VARCHAR},
+      scheme_consistency_degree = #{schemeConsistencyDegree,jdbcType=DOUBLE},
+      scheme_agree_number = #{schemeAgreeNumber,jdbcType=INTEGER},
+      scheme_oppose_number = #{schemeOpposeNumber,jdbcType=INTEGER},
+      scheme_middle_number = #{schemeMiddleNumber,jdbcType=INTEGER},
+      scheme_total_score = #{schemeTotalScore,jdbcType=DOUBLE},
+      scheme_name = #{schemeName,jdbcType=VARCHAR},
+      scheme_candidate_state = #{schemeCandidateState,jdbcType=VARCHAR}
+    where scheme_id = #{schemeId,jdbcType=INTEGER}
+  </update>
+</mapper>

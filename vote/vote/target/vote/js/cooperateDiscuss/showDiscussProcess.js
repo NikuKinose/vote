@@ -1,0 +1,291 @@
+/**
+ * 因为研讨室管理员的特殊性，许多函数不可重用
+ * 故此处重新定义了很多方法：
+ *
+ * “更多”的展开收起函数 readMore(Id,type)、readHidden(Id,type)、
+ * chatwebsocket相关方法；
+ */
+
+
+function readMore(Id,type){
+    if (type == 1){
+        $("#schemeMore"+Id).removeClass("test");
+        $("#schemeMoreA"+Id).toggle();
+        $("#schemeHiddenA"+Id).toggle();
+    }else {
+        $("#readMore"+Id).removeClass("test");
+        $("#readMoreA"+Id).toggle();
+        $("#readHiddenA"+Id).toggle();
+    }
+
+
+}
+
+function readHidden(Id,type){
+    if (type == 1){
+        $("#schemeMore"+Id).addClass("test");
+        $("#schemeMoreA"+Id).toggle();
+        $("#schemeHiddenA"+Id).toggle();
+    }else {
+        $("#readMore"+Id).addClass("test");
+        $("#readMoreA"+Id).toggle();
+        $("#readHiddenA"+Id).toggle();
+    }
+}
+
+/*获取系统时间*/
+var d=new Date();
+var time=getMyDate(d);
+//用来显示评论内容
+function sel(Node, number, comment, fatherName, schemeId, speakFatherId) {
+    //记录第几次递归调用
+    number=number+1;
+    //每一级发言前面的空格
+    //style="margin-left: 70px;"
+    var space = -40;
+    for (var num = 0;num<number;num++){
+        space = space + 40;
+    }
+
+    //评论数
+    var conmentNumber = 0;
+    if (Node.children != null){
+        conmentNumber = Node.children.length;
+    }
+
+    var addhtml = "<div style=\"margin-left: "+space+"px;\">\n" +
+        "                    <hr style=\"height:1px;border:none;border-top:1px dashed #09299a;\" />" +
+        "                        <div style=\"float: left;\"><img src=\"image/expertPicture/"+Node.user_field.userId+".jpg\" width=\"55px\" height=\"55px\" /></div>\n" +
+        "                        <br />\n" +
+        "                        <div style=\"float: left;color:#09299a;text-align: center;\">&nbsp;"+Node.user_field.userName+"&nbsp;回复&nbsp;"+fatherName+":</div>\n" +
+        "\n" +
+        "                        <div>" +
+        "                        <div class='test' id='readMore"+Node.speakId+"'>&nbsp;&nbsp;"+ Node.speakContent +"\n" +
+        "                        </div>  " +
+        "                       <div><a id='readMoreA"+Node.speakId+"' onclick=\"readMore("+Node.speakId+",2)\">更多</a><a id='readHiddenA"+Node.speakId+"' hidden onclick=\"readHidden("+Node.speakId+",2)\">收起</a></div>" +
+        "\n" +
+        "                            <div align=\"right\">\n" +
+        "                                " +
+        "                             <span style='font-size: 5px'color='#5e5e5e'>提出时间："+time+"</span>&nbsp;&nbsp;" +
+        "                          <span style='font-size: 5px'color='#5e5e5e'>共识值："+Node.speakConsistencyDegree+"</span>&nbsp;&nbsp;" +
+        "                             <span style='font-size: 5px'color='#5e5e5e'>评论数："+conmentNumber+"</span>&nbsp;&nbsp;" +
+        "                                <button class=' bt-unfold'id='speakSwitch"+Node.speakId+"' onclick=\"unfold(comment"+Node.speakId+",speakSwitch"+Node.speakId+")\">展开</button>\n" +
+        "                                <button class=\" bt-unfold\" name='replyButton' onclick='reply(this)'>回复</button>\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "\n" +
+        "                        <div class=\"user-reply\">\n" +
+        //这里是程度滑动条
+        "                        <input id=\"sliderbtnAdd"+Node.speakId+"\" type=\"text\" data-slider-min=\"-10\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\"/>" +
+        "                        <span id=\"currentSliderValLabelAdd"+Node.speakId+"\">&nbsp;&nbsp;强度：<span id=\"sliderValAdd"+Node.speakId+"\">0</span></span>"+
+
+        "                            <div class=\"reply-in\">\n" +
+        "                                <input class='reply-input' type=\"text\" value=\"\" name=\"\" placeholder=\"请输入评论内容\" />\n" +
+        "                            </div>\n" +
+        "                            <div class=\"reply-buttons\">\n" +
+        "                                <button type=\"button\" class=\"btn btn-primary btn-comment btn-sm\" onclick='comment(this, "+schemeId+", "+Node.speakId+",getspeakMatchedDegreeAdd("+Node.speakId+"))'>评论</button>\n" +
+        "                                <button type=\"button\" class=\"btn btn-default btn-cancel btn-sm\" onclick='cancel(this)'>取消</button>\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "\n" +
+        "            </div>\n" +
+        "\n" +
+
+        "                     <div class='schemeComment' id='comment"+Node.speakId+"'></div>";
+
+
+    $("#"+comment).append(addhtml);
+
+    $("#sliderbtnAdd"+Node.speakId).slider();
+    $("#sliderbtnAdd"+Node.speakId).on("slide", function(slideEvt) {
+        $("#sliderValAdd"+Node.speakId).text(slideEvt.value);
+    });
+
+    if(Node.children != null){
+        for (var i = 0; i < Node.children.length; i++){
+            sel(Node.children[i], number, "comment"+Node.speakId, Node.user_field.userName, schemeId, Node.speakId);
+        }
+    }
+
+
+}
+
+/**
+ * 获取发言数据时的强度
+ * @param schemeId
+ * @returns {jQuery}
+ */
+function getspeakMatchedDegree(schemeId){
+    return $("#sliderVal"+schemeId).text();
+}
+
+//载入聊天数据
+function loadData() {
+
+    var meeting = {};
+    meeting.meetingId = meetingId;
+
+    $.ajax({
+        type: 'POST',
+        url: "/selectAllSchemeAndSpeak",
+        data : JSON.stringify(meeting),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            //在这里数据展示
+            console.log(data);
+            $("#whole1").html("");
+            $.each(data.data, function (i, item) {
+                var SchemeConmentNumber = 0;
+                if (item.children != null){
+                    SchemeConmentNumber = item.children.length;
+                }
+
+                $("#whole1").append(
+
+                    "\n" +
+                    "        <div id=\"left\" style=\"width: 80px;height: inherit;float: left; /*border: solid green 1px;*/\">\n" +
+                    "            <img src=\"image/expertPicture/"+item.user_field.userId+".jpg\" style='width: 60px;height: 60px;border-radius: 5%' />\n" +
+
+                    "        </div>\n" +
+                    "        <div id=\"right\" style=\"/*border: solid red 1px;*/height: inherit;width: 88%;margin-left : 80px;padding-bottom: 12px;\">\n" +
+                    "            <div id=\"scheme\" style=\"border: solid #4978c5 1.5px;border-radius: 5px;width: 100%;height: auto;padding: 12px\">\n" +
+                    "\n" +
+                    "                <div id=\"expertName\" style=\"color:#09299a;margin: 3px\">\n" +
+                    "                    "+item.user_field.userName+"\n" +
+                    "                </div>\n" +
+                    "                <div  id=\"schemeContent\">\n" +
+                    "                <div id='schemeMore"+item.schemeId+"' class='test'>" +
+                    "                    &nbsp;&nbsp;"+item.schemeBeforeContent+"\n" +
+                    "                </div>" +
+                    "                </div>\n" +
+                    "                <div><a id='schemeMoreA"+item.schemeId+"' onclick=\"readMore("+item.schemeId+",1)\">更多</a><a id='schemeHiddenA"+item.schemeId+"' hidden onclick=\"readHidden("+item.schemeId+",1)\">收起</a></div>" +
+                    "\n" +
+                    "                <div id=\"unfold\" align=\"right\">\n" +
+                    "                  <span style='font-size: 5px'color='#5e5e5e'>提出时间："+time+"</span>&nbsp;&nbsp;" +
+                    "                    <span style='font-size: 5px'color='#5e5e5e'>评论数："+SchemeConmentNumber+"</span>&nbsp;&nbsp;" +
+                    "                    <button class='bt-unfold'id='schemeSwitch"+item.schemeId+"' onclick=\"unfold(schemeComment"+item.schemeId+",schemeSwitch"+item.schemeId+")\">展开</button>\n" +
+                    "                    <button onclick='reply(this)' name='replyButton' class=\"btn btn-primary btn-sm btn-reply\">回复</button>" +
+                    "                </div>\n" +
+                    "                <div class=\"user-reply\">\n" +
+                    //这里是程度滑动条
+                    "                        <input id=\"sliderbtn"+item.schemeId+"\" type=\"text\" data-slider-min=\"-10\" data-slider-max=\"10\" data-slider-step=\"1\" data-slider-value=\"0\"/>" +
+                    "                        <span id=\"currentSliderValLabel"+item.schemeId+"\">&nbsp;&nbsp;强度：<span id=\"sliderVal"+item.schemeId+"\">0</span></span>"+
+                    "                    <div class=\"reply-in\">\n" +
+                    "                        <input class='reply-input' type=\"text\" value=\"\" name=\"\" placeholder=\"请输入评论内容\" />\n" +
+                    "                    </div>\n" +
+                    "                    <div class=\"reply-buttons\">\n" +/* onload=\"slider("+item.schemeId+")\"*/
+                    "                        <button type=\"button\" class=\"btn btn-primary btn-comment btn-sm\" onclick='comment(this, "+item.schemeId+", 0, getspeakMatchedDegree("+item.schemeId+"))'>评论</button>\n" +
+                    "                        <button type=\"button\" class=\"btn btn-default btn-cancel btn-sm\" onclick='cancel(this)'>取消</button>\n" +
+                    "                    </div>\n" +
+                    "                </div>" +
+                    // "                <hr style=\"height:1px;background-color: #09299a;width: 100%\" />\n" +
+                    "                <div class='schemeComment' id=\"schemeComment"+item.schemeId+"\">\n" +
+                    "                </div>\n" +
+                    "\n" +
+                    "            </div>\n" +
+                    "\n" +
+                    "        </div>"
+                );
+                //初始化滑动条
+                $("#sliderbtn"+item.schemeId).slider();
+                $("#sliderbtn"+item.schemeId).on("slide", function(slideEvt) {
+                    $("#sliderVal"+item.schemeId).text(slideEvt.value);
+                });
+
+                if (item.children != null){
+                    $.each(item.children, function (i1,item1) {
+                        //递归打印评论树
+                        sel(item1, 0 , "schemeComment"+item.schemeId, item.user_field.userName, item.schemeId, 0);
+                    });
+                }
+
+            });
+
+            $(":button[name='replyButton']").hide();
+
+            //重绘
+            redrawn();
+
+
+        }
+    });
+
+}
+
+// if (window.WebSocket) {
+//发言websocket（chatWebsocket）
+var chatWebsocket = new WebSocket('ws://'+_ip+'/chatWebsocket');
+
+chatWebsocket.onopen = function (event) {
+    //初始载入数据
+    loadData();
+};
+
+chatWebsocket.onclose = function (event) {
+    // alert("发言websocket连接关闭")
+};
+
+chatWebsocket.onerror = function (event) {
+    // alert("发言websocket连接出错")
+};
+
+chatWebsocket.onmessage = function (event) {
+
+    var receiveData = JSON.parse(event.data);
+    if (meetingId == receiveData.meetingId){ //是这个研讨室
+        if (receiveData.type == "comment"){  //是评论
+            if (receiveData.data.speakFatherId == 0){ //是对方案的评论
+                //这里是对方案的评论数+1
+                var _thecomment = $("#SchemeCommentNumber"+receiveData.data.speakSchemeId).text();
+                var n = _thecomment.indexOf("：");
+                var _num = _thecomment.substring(n+1, _thecomment.length);
+                _num = parseInt(_num)+1;
+                _thecomment = "评论数：" + _num;
+                $("#SchemeCommentNumber"+receiveData.data.speakSchemeId).text(_thecomment);
+                //直接打印语句
+                $("#schemeComment"+receiveData.data.speakSchemeId).append(receiveData.message);
+                //初始化滑动条
+                $("#sliderbtnAdd"+receiveData.speakId).slider();
+                $("#sliderbtnAdd"+receiveData.speakId).on("slide", function(slideEvt) {
+                    $("#sliderValAdd"+receiveData.speakId).text(slideEvt.value);
+                });
+            }else {
+                //是对评论的评论
+                //这里是对父评论的评论数+1
+                var _thecomment = $("#commentNumber"+receiveData.data.speakFatherId).text();
+                var n = _thecomment.indexOf("：");
+                var _num = _thecomment.substring(n+1, _thecomment.length);
+                _num = parseInt(_num)+1;
+                _thecomment = "评论数：" + _num;
+                $("#commentNumber"+receiveData.data.speakFatherId).text(_thecomment);
+                //直接打印语句
+                $("#comment"+receiveData.data.speakFatherId).append(receiveData.message);//直接打印语句
+                //初始化滑动条
+                $("#sliderbtnAdd"+receiveData.speakId).slider();
+                $("#sliderbtnAdd"+receiveData.speakId).on("slide", function(slideEvt) {
+                    $("#sliderValAdd"+receiveData.speakId).text(slideEvt.value);
+                });
+            }
+        }else {//发表方案
+            $("#whole1").append(receiveData.message);
+            //初始化滑动条
+            $("#sliderbtn"+receiveData.data.schemeId).slider();
+            $("#sliderbtn"+receiveData.data.schemeId).on("slide", function(slideEvt) {
+                $("#sliderVal"+receiveData.data.schemeId).text(slideEvt.value);
+            });
+        }
+
+        //隐藏发言按钮
+        $(":button[name='replyButton']").hide();
+
+        //重绘
+        redrawn();
+    }
+
+};
+
+
+function chat(schemeId, speakContent, speakFatherId, speakMatchedDegree) {
+    console.log("研讨室管理员不应该进入chat");
+}
