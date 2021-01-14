@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
-      <version>3.0.2-FINAL</version>
+      <version>3.17</version>
     </dependency>
     <!--zm20160316为导出word文档引入-->
     <!--导入操作excel所需要的jar包-->
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
-      <version>3.10-beta2</version>
+      <version>3.17</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
